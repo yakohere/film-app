@@ -4,7 +4,7 @@ import styled from "styled-components"
 const FilmElement = (props) => {
 	return( 
 		<Element> 
-		<Poster> <img src={props.poster} /> </Poster>
+		<Poster> <img src={props.poster} alt={props.imageAlt} /> </Poster>
 		<Title> {props.title} </Title>
 		</Element>
 	)

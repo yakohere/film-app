@@ -10,13 +10,11 @@ import FilmList from "./components/FilmList"
 
 function App() {
   return (
-    
     <Router>
       <Switch>
         <Route path="/" exact component={FilmList} />
       </Switch>
     </Router>
-
   );
 }
 

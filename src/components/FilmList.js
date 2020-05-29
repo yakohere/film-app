@@ -1,41 +1,31 @@
 import React, {useState, useEffect} from "react";
-import styled from "styled-components"
-import axios from "axios";
+import styled from "styled-components" 
 
 import FilmElement from "./FilmElement"
 
 const FilmList = (props) => {
-const [films, setFilms] = useState([])
+
+const [films, setFilms] = useState([]);
 const [loading, setLoading] = useState(false);
+ 
+const API = "https://api.itv.uz/api/content/main/2/list?user=fcf1f555115022e5cceaf0d0293ee382"
+ 
 
-const token = "fcf1f555115022e5cceaf0d0293ee382"
-const API = "https://api.itv.uz/api/content/main/2/list?user="
-
-useState(() => {
-	setLoading(true);
-
-	/*fetch( API + token)
+ useEffect(() => {
+    setLoading(true);
+    fetch(`https://cors-anywhere.herokuapp.com/${API}`)	
       .then((response) => response.json())
-      .then((data) => {
-        setFilms(data);
+      .then((responseData) => {
+        setFilms(responseData.data.movies);
         setLoading(false);
       });
-      */
+  }, []);
 
-     axios.get(API + token)
-     	.then(response.data => data)
-     	.then(data => setFilms(data))
-     	setLoading(false)
-
-
-
-},[])
-
-return(
-	<List>
-		{films.map(film => <FilmElement id={film.id} poster={film.files.poster_url} title={film.title}/>)}
+return (
+	<List> 
+	{loading ? <h1>Loading...</h1> : films.map(film => <FilmElement key={film.id} poster={film.files.poster_url} title={film.title} imageAlt={film.title}/>) }	
 	</List>
-	)
+ )
 }
 
 export default FilmList;
