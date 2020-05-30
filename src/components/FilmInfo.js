@@ -5,46 +5,38 @@ import ReactPlayer from 'react-player';
 import Spinner from "./Spinner";
 
 const FilmInfo = props => {
+
 const filmid = useParams().filmid;
 
 const [film, setFilm] = useState([]);
 const [details, setDetails] = useState([]); 
-const [loading, setLoading] = useState(false);
+const [isLoading, setIsLoading] = useState(false);
 
-//const CORSHELPER = "https://cors-anywhere.herokuapp.com/";
+const cors_helper = "https://cors-anywhere.herokuapp.com/";
+const url = "https://api.itv.uz/api/content/main/2/show/";
+const token="?user=fcf1f555115022e5cceaf0d0293ee382";
+//const token = "fcf1f555115022e5cceaf0d0293ee382";
 
+ 
 useEffect(() => {
-	setLoading(true);
 
-
-let url = `https://api.itv.uz/api/content/main/2/show/${filmid}`;
-//let token = JSON.parse( sessionStorage.getItem("Token") );
-const token = "fcf1f555115022e5cceaf0d0293ee382";
-
-let h = new Headers();
-h.append('Authentication', `Bearer ${token}`);
-
-
-  let req = new Request(url, {
-                method: 'GET',
-                mode: 'cors',
-                headers: h
-            });
-            fetch(req)
-                .then(resp => resp.json())
-                .then(data => {
-                    console.log(data[0]);
-                })
-                .catch(err => {
-                    console.error(err.message);
-                })
-        
-
-}, []);
+	setIsLoading(true); 
+	
+		fetch(`${cors_helper}${url}${filmid}${token}`, {
+		method: "GET",	
+		})
+		.then(res => res.json())
+		.then(data => {
+		setFilm(data.data.movie);
+		setDetails(data.data.movie.files);
+		setIsLoading(false);
+		}) 
+}, [filmid]);
+ 
   
 let content;
 
-if(loading) {
+if(isLoading) {
  	content = <Spinner/>
 } else {
  	content = (
@@ -60,13 +52,18 @@ if(loading) {
 					<div className="genre">Janr: {film.genres_str}</div>
 					<hr />
 					<div className="description">{film.description}</div>
-					<div className="player">  
-						 <ReactPlayer url="#" playing muted config={{ 
+					 <div className="player">  
+						<ReactPlayer url="#" playing muted config={{ 
 						 	file: { 
 						 		attributes: {
 						 			autoPlay: true,
 						 			muted: true
-						 		}}}} />
+						 		}
+						 	}
+						 	}
+						}
+						/>
+
 					</div>
 				</Info>
 			</RightItems>
