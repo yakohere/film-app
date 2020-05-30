@@ -5,18 +5,34 @@ import {
   Switch,
   Redirect,
 } from "react-router-dom";
+import styled from "styled-components";
 
-import FilmList from "./components/FilmList"
+import FilmInfo from "./components/FilmInfo";
+import FilmList from "./components/FilmList";
 
-function App() {
+const App = () => {
   return (
-    <Router>
-      <Switch>
-        <Route path="/" exact component={FilmList} />
-      </Switch>
-    </Router>
+    <AppContainer>
+      <Router>
+        <Switch>
+          <Route path="/" exact component={FilmList} />
+          <Route path="/:filmid" exact component={FilmInfo} />
+           <Redirect to="/" />
+        </Switch>
+      </Router>
+    </AppContainer>
   );
 }
 
 export default App;
  
+
+const AppContainer = styled.div`
+
+width: 100%;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+
+`
