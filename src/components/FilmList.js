@@ -23,7 +23,7 @@ useEffect(() => {
 
 return (
 	<List> 
-	{loading ? <Spinner/> : films.map(film => <FilmElement key={film.id} id={film.id} poster={film.files.poster_url} title={film.title} imageAlt={film.title}/>) }	
+	   {loading ? <Spinner/> : films.map(film => <FilmElement key={film.id} id={film.id} poster={film.files.poster_url} title={film.title} imageAlt={film.title}/>) }	
 	</List>
  )
 }
@@ -36,4 +36,6 @@ const List = styled.div`
  flex-wrap: wrap;
  justify-content: space-around;
  align-items: center;
+ padding-top: 10px;
+ box-sizing: border-box; 
 `
