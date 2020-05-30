@@ -10,6 +10,7 @@ const filmid = useParams().filmid;
 
 const [film, setFilm] = useState([]);
 const [details, setDetails] = useState([]); 
+const [snapshots, setSnapshots] = useState([]); 
 const [isLoading, setIsLoading] = useState(false);
 
 const cors_helper = "https://cors-anywhere.herokuapp.com/";
@@ -26,14 +27,15 @@ useEffect(() => {
 		method: "GET",	
 		})
 		.then(res => res.json())
-		.then(data => {
-		setFilm(data.data.movie);
-		setDetails(data.data.movie.files);
+		.then(resdata => {
+		setFilm(resdata.data.movie);
+		setSnapshots(resdata.data.movie.files.snapshots);
+		setDetails(resdata.data.movie.files);
 		setIsLoading(false);
 		}) 
 }, [filmid]);
- 
-  
+    
+
 let content;
 
 if(isLoading) {
@@ -52,18 +54,8 @@ if(isLoading) {
 					<div className="genre">Janr: {film.genres_str}</div>
 					<hr />
 					<div className="description">{film.description}</div>
-					 <div className="player">  
-						<ReactPlayer url="#" playing muted config={{ 
-						 	file: { 
-						 		attributes: {
-						 			autoPlay: true,
-						 			muted: true
-						 		}
-						 	}
-						 	}
-						}
-						/>
-
+					 <div className="snapshots">  
+						 {snapshots.map(snapshot => <img src={snapshot.snapshot_url}/> )}
 					</div>
 				</Info>
 			</RightItems>
@@ -76,7 +68,7 @@ if(isLoading) {
 export default FilmInfo;
 
 const Container = styled.div`
-	width: 80%;
+	width: 90%;
 	display: flex;
 	justify-content: space-between;
 	@media screen and (max-width: 900px) {
@@ -113,7 +105,7 @@ const Poster = styled.div`
 	}
 `
 
-const RightItems = styled.div`	
+const RightItems = styled.div`	 
 width: 50%;
 display: flex;
 flex-direction: column; 
@@ -129,6 +121,7 @@ padding: 0;
 `
 
 const Info = styled.div`
+width: 100%;
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -141,6 +134,19 @@ hr{
 	width: 50%;
 	color: grey;	
 }
+}
+
+
+.snapshots{
+	width: 100%; 
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	img{
+		width: 200px;
+		border: 2px solid white;
+	}
 } 
 `
  

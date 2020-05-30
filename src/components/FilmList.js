@@ -9,14 +9,15 @@ const FilmList = (props) => {
 const [films, setFilms] = useState([]);
 const [loading, setLoading] = useState(false);
  
-const API = "https://api.itv.uz/api/content/main/2/list?user=fcf1f555115022e5cceaf0d0293ee382"
+const API = "https://api.itv.uz/api/content/main/2/list?user=fcf1f555115022e5cceaf0d0293ee382";
+//const token = "fcf1f555115022e5cceaf0d0293ee382";
 
-
- 
 useEffect(() => {
     setLoading(true);
     
-    fetch(`https://cors-anywhere.herokuapp.com/${API}`)	
+    fetch(`https://cors-anywhere.herokuapp.com/${API}`, {
+      method: "GET",
+    })	
       .then((response) => response.json())
       .then((responseData) => {
         setFilms(responseData.data.movies);
@@ -29,14 +30,13 @@ useEffect(() => {
 useEffect(() => {
   setLoading(true);
 
-//CORS POlICY serverdan malumot olishga yo`l qo`ymayabdi!
 
-let url = `/https://api.itv.uz/api/content/main/2/list`;
+let url = `https://api.itv.uz/api/content/main/2/list?user=fcf1f555115022e5cceaf0d0293ee382`;
 //let token = JSON.parse( sessionStorage.getItem("Token") );
 const token = "fcf1f555115022e5cceaf0d0293ee382";
 
 let h = new Headers();
-h.append('Authentication', `user=${token}`);
+h.append('Authentication', `Bearer ${token}`);
 
   let req = new Request(url, {
                 method: 'GET',
@@ -67,7 +67,7 @@ return (
 export default FilmList;
 
 const List = styled.div`
- width: 80%;
+ width: 85%;
  display: flex;
  flex-wrap: wrap;
  justify-content: space-around;

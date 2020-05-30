@@ -18,18 +18,23 @@ const FilmElement = (props) => {
 export default FilmElement;
 
 const Element = styled.div`
-	width: 350px;
-	height: 550px;
+	width: 250px;
+	height: 380px;
 	margin-bottom: 10px;
-`
+	
+`	
  
 const Poster = styled.div`
 	width: 100%;
 	height: 230px;
+	img{
+		width: 250px;
+	}
 `
 const Title = styled.div`
 	width: 100%;
 	height: 27;
 	text-decoration: none;
 	color: black;
+	font-size: 18px;
 `
