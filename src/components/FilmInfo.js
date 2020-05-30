@@ -11,27 +11,38 @@ const [film, setFilm] = useState([]);
 const [details, setDetails] = useState([]); 
 const [loading, setLoading] = useState(false);
 
-const CORSHELPER = "https://cors-anywhere.herokuapp.com/";
-const API = "https://api.itv.uz/api/content/main/2/show/";
-const Token = "?user=fcf1f555115022e5cceaf0d0293ee382";
+//const CORSHELPER = "https://cors-anywhere.herokuapp.com/";
 
 useEffect(() => {
 	setLoading(true);
-	fetch(CORSHELPER + API + filmid + Token,  {
-        method: 'GET',
-        headers: {
-        	'Content-Type': 'application/json'
-        }
-	})
-	.then((response) => response.json())
-      .then((responseData) => {
-        setFilm(responseData.data.movie); 
-        setDetails(responseData.data.movie.files);  
-        setLoading(false);
-       })
-}, [filmid]);
+
+
+let url = `https://api.itv.uz/api/content/main/2/show/${filmid}`;
+//let token = JSON.parse( sessionStorage.getItem("Token") );
+const token = "fcf1f555115022e5cceaf0d0293ee382";
+
+let h = new Headers();
+h.append('Authentication', `Bearer ${token}`);
+
+
+  let req = new Request(url, {
+                method: 'GET',
+                mode: 'cors',
+                headers: h
+            });
+            fetch(req)
+                .then(resp => resp.json())
+                .then(data => {
+                    console.log(data[0]);
+                })
+                .catch(err => {
+                    console.error(err.message);
+                })
+        
+
+}, []);
   
-let content ;
+let content;
 
 if(loading) {
  	content = <Spinner/>
