@@ -49,7 +49,6 @@ h.append('Authentication', `Bearer ${token}`);
                 .catch(err => {
                     console.error(err.message);
                 })
-        
 
 }, []);
 
